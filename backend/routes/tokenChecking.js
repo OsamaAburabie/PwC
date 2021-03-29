@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/isLoggedIn", async (req, res) => {
   try {
-    const token = req.header("x-auth-token");
+    const token = req.cookies.token;
     if (!token) return res.json({ valid: false });
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     if (!verified) return res.json({ valid: false });
