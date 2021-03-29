@@ -12,6 +12,15 @@ router.post("/register", user_register);
 
 router.post("/login", user_login);
 
+router.get("/logout", (req, res) => {
+  res
+    .cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    })
+    .send();
+});
+//user Ticket's
 router.post("/addTickets", auth, add_ticket);
 
 router.get("/allTickets", auth, get_all_tickets);

@@ -40,8 +40,24 @@ exports.user_register = async function (req, res) {
       password: passwordHash,
       displayName,
     });
-    const savedUser = await newUser.save();
-    res.json(savedUser);
+    const user = await newUser.save();
+
+    //login the user
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    // res.json({
+    //   token,
+    //   user: {
+    //     id: user._id,
+    //     displayName: user.displayName,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    // });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -65,15 +81,20 @@ exports.user_login = async function (req, res) {
     if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        displayName: user.displayName,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    // res.json({
+    //   token,
+    //   user: {
+    //     id: user._id,
+    //     displayName: user.displayName,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    // });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -115,8 +136,22 @@ exports.admin_register = async function (req, res) {
       displayName,
       role: "admin",
     });
-    const savedUser = await newUser.save();
-    res.json(savedUser);
+    const user = await newUser.save();
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    // res.json({
+    //   token,
+    //   user: {
+    //     id: user._id,
+    //     displayName: user.displayName,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    // });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -141,15 +176,20 @@ exports.admin_login = async function (req, res) {
     if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
     //set the token with the user id
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        displayName: user.displayName,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    // res.json({
+    //   token,
+    //   user: {
+    //     id: user._id,
+    //     displayName: user.displayName,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    // });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
