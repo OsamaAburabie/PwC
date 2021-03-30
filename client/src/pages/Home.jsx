@@ -7,6 +7,7 @@ function Home() {
   const [body, setBody] = useState("");
   const { isLoggedIn, myToken, email } = useContext(AuthContext);
   const [error, setError] = useState();
+  const [success, setSuccess] = useState();
 
   const handleTicket = async (e) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ function Home() {
       .then(() => {
         setTitle("");
         setBody("");
+        setSuccess("Your ticket is under process ");
       })
       .catch((err) => err.response.data.msg && setError(err.response.data.msg));
   };
@@ -33,6 +35,7 @@ function Home() {
           <h6>Do you have any complains?</h6>
           <div className="erros">
             <p>{error}</p>
+            <p style={{ color: "green" }}>{success}</p>
           </div>
           <form onSubmit={handleTicket}>
             <input

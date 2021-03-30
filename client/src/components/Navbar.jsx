@@ -19,25 +19,25 @@ function Navbar() {
       {isLoggedIn ? (
         <div className="auth__buttons">
           <Link to="/profile">
-            <button className="btn transparent">{username}</button>
+            <button className="nav__btn transparent">{username}</button>
           </Link>
 
           {role === "admin" && (
             <Link to="/admin/manageTickits">
-              <button className="btn">Dashboard</button>
+              <button className="nav__btn">Dashboard</button>
             </Link>
           )}
-          <button className="btn red" onClick={logout}>
+          <button className="nav__btn red" onClick={logout}>
             Logout
           </button>
         </div>
       ) : (
         <div className="auth__buttons">
           <Link to="/login">
-            <button className="btn">Login</button>
+            <button className="nav__btn">Login</button>
           </Link>
           <Link to="/register">
-            <button className="btn">Sign up</button>
+            <button className="nav__btn">Sign up</button>
           </Link>
         </div>
       )}

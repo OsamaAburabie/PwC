@@ -180,3 +180,21 @@ exports.admin_login = async function (req, res) {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.delete_user_account = async (req, res) => {
+  try {
+    const user = await User.findById(req.user);
+    if (!user)
+      return res
+        .status(400)
+        .json({ msg: "No account with this email has been registered" });
+    const { password } = req.body;
+    if (!password) return res.status(400).json({ msg: "invalid password" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "invalid password" });
+    const deletedUser = await User.findByIdAndDelete(req.user);
+    res.json(deletedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

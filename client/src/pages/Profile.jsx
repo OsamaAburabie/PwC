@@ -5,19 +5,22 @@ import { useHistory } from "react-router";
 import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import axios from "axios";
+import { DelAccPopup } from "../components/DelAccPopup";
 function Profile() {
   const { isLoggedIn, myToken, username, email } = useContext(AuthContext);
   const [tickets, setTickets] = useState();
+  const [submited, setSubmit] = useState(false);
+
   console.log(myToken);
   const history = useHistory();
 
-  async function fetchData() {
-    await axios
+  function fetchData() {
+    axios
       .get("http://localhost:5000/users/allTickets", {
         headers: { "x-auth-token": myToken },
       })
-      .then((req) => {
-        setTickets(req.data);
+      .then((res) => {
+        setTickets(res.data);
       });
   }
   useEffect(() => {
@@ -38,6 +41,17 @@ function Profile() {
       .delete("http://localhost:5000/users/allTickets/" + id, { headers })
       .then(setTickets(tickets.filter((todo) => todo._id !== id)));
   };
+
+  const delAcc = () => {
+    setSubmit(true);
+  };
+  const Close = () => {
+    setSubmit(false);
+  };
+  const logout = async () => {
+    localStorage.setItem("auth-token", "");
+    window.location = "/login";
+  };
   if (!isLoggedIn) {
     return <></>;
   } else {
@@ -56,23 +70,34 @@ function Profile() {
               <EmailIcon /> Email: {email}
             </p>
           </div>
-          <button className="sbar__btn ">Delete Account</button>
+          <button onClick={delAcc} className="sbar__btn ">
+            Delete Account
+          </button>
+          <DelAccPopup
+            msg={
+              " It's seems like you don't have an account, you still can join us."
+            }
+            btn={"SignUp Now!"}
+            show={submited}
+            onHide={Close}
+            logOut={logout}
+          />
         </div>
         <div className="Prifile__content">
-          <table className="zebra">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Body</th>
-                <th>Date Created</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tickets &&
-                tickets.map((el) => (
+          {tickets && (
+            <table className="zebra">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Body</th>
+                  <th>Date Created</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tickets.map((el) => (
                   <tr key={el._id}>
                     <td>{el.title}</td>
                     <td>{el.body}</td>
@@ -89,8 +114,9 @@ function Profile() {
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     );

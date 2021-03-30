@@ -29,7 +29,10 @@ exports.change_ticket_status = async function (req, res) {
     });
     if (!ticket) return res.status(400).json({ msg: "No ticket found" });
     const editedTickt = await ticket.updateOne({ status: req.body.status });
-    res.json(editedTickt);
+    const updated = await Ticket.findOne({
+      _id: req.params.id,
+    });
+    res.json(updated.status);
   } catch (err) {
     res.status(404).json({ msg: "Not found 404" });
   }

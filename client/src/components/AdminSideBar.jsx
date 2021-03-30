@@ -5,10 +5,10 @@ function AdminSideBar() {
   return (
     <div className="admin__side__bar">
       <NavLink to="manageTickits">
-        <button className="sbar__btn black">Manage Tickets</button>
+        <button className="sbar__btn ">Manage Tickets</button>
       </NavLink>
       <NavLink to="adminRegister">
-        <button className="sbar__btn black">Register Admins</button>
+        <button className="sbar__btn ">Register Admins</button>
       </NavLink>
     </div>
   );
