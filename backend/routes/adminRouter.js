@@ -12,7 +12,6 @@ const {
 router.post("/register", admin_register);
 
 router.post("/login", admin_login);
-
 //getting all tickets for all customers
 router.get("/allTickets", auth, get_all_tickets_by_admin);
 

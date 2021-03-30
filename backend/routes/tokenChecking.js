@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-// const auth = require("../middleware/auth");
+const auth = require("../middleware/auth");
 
 router.post("/isLoggedIn", async (req, res) => {
   try {
-    const token = req.cookies.token;
+    const token = req.header("x-auth-token");
     if (!token) return res.json({ valid: false });
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     if (!verified) return res.json({ valid: false });
@@ -22,7 +22,6 @@ router.post("/isLoggedIn", async (req, res) => {
     return res.json({ valid: false });
   }
 });
-
 // router.get("/", auth, async (req, res) => {
 //   const user = await User.findById(req.user);
 //   res.json({

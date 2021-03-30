@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const { isLoggedIn, getLoggedin } = useContext(AuthContext);
+  const { isLoggedIn, checkLoggedIn } = useContext(AuthContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -23,9 +23,15 @@ function Login() {
         password,
       };
 
-      await axios.post("http://localhost:5000/users/login", loginData);
-      getLoggedin();
-      history.push("/");
+      const loginRes = await axios.post(
+        "http://localhost:9000/users/login",
+        loginData
+      );
+      if (loginRes.data.token) {
+        localStorage.setItem("auth-token", loginRes.data.token);
+        checkLoggedIn();
+      }
+      // history.push("/");
     } catch (error) {
       console.error(error);
     }

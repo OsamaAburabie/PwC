@@ -44,20 +44,15 @@ exports.user_register = async function (req, res) {
 
     //login the user
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    // res.json({
-    //   token,
-    //   user: {
-    //     id: user._id,
-    //     displayName: user.displayName,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    // });
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -81,20 +76,15 @@ exports.user_login = async function (req, res) {
     if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    // res.json({
-    //   token,
-    //   user: {
-    //     id: user._id,
-    //     displayName: user.displayName,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    // });
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -137,21 +127,18 @@ exports.admin_register = async function (req, res) {
       role: "admin",
     });
     const user = await newUser.save();
+
+    //login the user
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    // res.json({
-    //   token,
-    //   user: {
-    //     id: user._id,
-    //     displayName: user.displayName,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    // });
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -176,20 +163,15 @@ exports.admin_login = async function (req, res) {
     if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
     //set the token with the user id
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    // res.json({
-    //   token,
-    //   user: {
-    //     id: user._id,
-    //     displayName: user.displayName,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    // });
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

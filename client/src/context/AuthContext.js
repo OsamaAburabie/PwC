@@ -3,28 +3,40 @@ import axios from "axios";
 
 const AuthContext = createContext();
 function AuthContextProvider(props) {
-  const [isLoggedIn, setLoggedIn] = useState(undefined);
+  const [isLoggedIn, setLoggedIn] = useState();
   const [username, setUsername] = useState(null);
   const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
 
-  const getLoggedin = async () => {
-    const loggedinRes = await axios.post(
-      "http://localhost:5000/check/isLoggedIn"
+  const checkLoggedIn = async () => {
+    let token = localStorage.getItem("auth-token");
+    if (token === null) {
+      localStorage.setItem("auth-token", "");
+      token = "";
+    }
+
+    const tokenRes = await axios.post(
+      "http://localhost:9000/check/isLoggedIn",
+      null,
+      {
+        headers: { "x-auth-token": token },
+      }
     );
-    setLoggedIn(loggedinRes.data.valid);
-    if (loggedinRes.data.valid === true) {
-      setUsername(loggedinRes.data.displayName);
-      setRole(loggedinRes.data.role);
-      setEmail(loggedinRes.data.email);
+    if (tokenRes.data.valid === true) {
+      setUsername(tokenRes.data.displayName);
+      setRole(tokenRes.data.role);
+      setEmail(tokenRes.data.email);
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
     }
   };
   useEffect(() => {
-    getLoggedin();
+    checkLoggedIn();
   }, []);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, getLoggedin, username, role, email }}
+      value={{ isLoggedIn, username, role, email, checkLoggedIn }}
     >
       {props.children}
     </AuthContext.Provider>

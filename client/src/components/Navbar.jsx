@@ -4,6 +4,10 @@ import AuthContext from "../context/AuthContext";
 function Navbar() {
   const { isLoggedIn, role } = useContext(AuthContext);
 
+  const logout = async () => {
+    localStorage.setItem("auth-token", "");
+    window.location = "/login";
+  };
   return (
     <div>
       <Link to="/">Home</Link>
@@ -15,6 +19,7 @@ function Navbar() {
         </>
       )}
       {role === "admin" && <Link to="/admin/dashboard">dashboard</Link>}
+      {isLoggedIn === true && <button onClick={logout}>LogOut</button>}
     </div>
   );
 }

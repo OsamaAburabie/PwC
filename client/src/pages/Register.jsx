@@ -7,7 +7,7 @@ function Register() {
   const [displayName, setDisplayName] = useState();
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
-  const { isLoggedIn, getLoggedin } = useContext(AuthContext);
+  const { isLoggedIn, checkLoggedIn } = useContext(AuthContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -20,16 +20,22 @@ function Register() {
     e.preventDefault();
 
     try {
-      const registerData = {
+      const loginData = {
         email,
         password,
         passwordCheck,
         displayName,
       };
 
-      await axios.post("http://localhost:5000/users/register", registerData);
-      getLoggedin();
-      history.push("/");
+      const loginRes = await axios.post(
+        "http://localhost:9000/users/register",
+        loginData
+      );
+      if (loginRes.data.token) {
+        localStorage.setItem("auth-token", loginRes.data.token);
+        checkLoggedIn();
+      }
+      // history.push("/");
     } catch (error) {
       console.error(error);
     }
