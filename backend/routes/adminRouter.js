@@ -9,7 +9,7 @@ const {
   change_ticket_status,
 } = require("../controllers/manageTicketsController");
 
-router.post("/register", admin_register);
+router.post("/register", auth, admin_register);
 
 router.post("/login", admin_login);
 //getting all tickets for all customers

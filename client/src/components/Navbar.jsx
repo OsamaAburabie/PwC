@@ -1,26 +1,47 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import "./Navbar.css";
 function Navbar() {
-  const { isLoggedIn, role } = useContext(AuthContext);
+  const { isLoggedIn, role, username } = useContext(AuthContext);
 
   const logout = async () => {
     localStorage.setItem("auth-token", "");
     window.location = "/login";
   };
   return (
-    <div>
-      <Link to="/">Home</Link>
-      {isLoggedIn === false && (
-        <>
-          <Link to="/login">login</Link>
-          <Link to="/register">register</Link>
-          <Link to="/admin/register">Adminregister</Link>
-        </>
+    <nav>
+      <div className="nav__logo">
+        <Link className="logo_link" to="/">
+          ABC
+        </Link>
+      </div>
+      {isLoggedIn ? (
+        <div className="auth__buttons">
+          <Link to="/profile">
+            <button className="btn transparent">{username}</button>
+          </Link>
+
+          {role === "admin" && (
+            <Link to="/admin/manageTickits">
+              <button className="btn">Dashboard</button>
+            </Link>
+          )}
+          <button className="btn red" onClick={logout}>
+            Logout
+          </button>
+        </div>
+      ) : (
+        <div className="auth__buttons">
+          <Link to="/login">
+            <button className="btn">Login</button>
+          </Link>
+          <Link to="/register">
+            <button className="btn">Sign up</button>
+          </Link>
+        </div>
       )}
-      {role === "admin" && <Link to="/admin/dashboard">dashboard</Link>}
-      {isLoggedIn === true && <button onClick={logout}>LogOut</button>}
-    </div>
+    </nav>
   );
 }
 

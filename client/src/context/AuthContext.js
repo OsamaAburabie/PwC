@@ -7,16 +7,16 @@ function AuthContextProvider(props) {
   const [username, setUsername] = useState(null);
   const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
-
+  const [myToken, setMyToken] = useState(null);
   const checkLoggedIn = async () => {
     let token = localStorage.getItem("auth-token");
     if (token === null) {
       localStorage.setItem("auth-token", "");
       token = "";
-    }
+    } else setMyToken(token);
 
     const tokenRes = await axios.post(
-      "http://localhost:9000/check/isLoggedIn",
+      "http://localhost:5000/check/isLoggedIn",
       null,
       {
         headers: { "x-auth-token": token },
@@ -36,7 +36,7 @@ function AuthContextProvider(props) {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, username, role, email, checkLoggedIn }}
+      value={{ isLoggedIn, username, role, email, checkLoggedIn, myToken }}
     >
       {props.children}
     </AuthContext.Provider>

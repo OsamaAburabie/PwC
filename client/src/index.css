@@ -5,5 +5,9 @@
 }
 
 body {
-  font-family: sans-serif Arial;
+  font-family: sans-serif;
+}
+.App {
+  height: calc(100vh - 4rem);
+  width: 100vw;
 }

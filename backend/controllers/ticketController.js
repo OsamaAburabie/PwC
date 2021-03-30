@@ -2,12 +2,15 @@ const Ticket = require("../models/ticketModel");
 
 exports.add_ticket = async function (req, res) {
   try {
-    const { title } = req.body;
+    const { title, body, email } = req.body;
     //validation
-    if (!title) return res.status(400).json({ msg: "Please add a titile" });
+    if (!title || !body || !email)
+      return res.status(400).json({ msg: "Please fill all the fields" });
 
     const newTicket = new Ticket({
       title,
+      body,
+      email,
       userId: req.user,
     });
     const savedTicket = await newTicket.save();

@@ -91,6 +91,10 @@ exports.user_login = async function (req, res) {
 };
 exports.admin_register = async function (req, res) {
   try {
+    const checkuser = await User.findById(req.user);
+    //checking if this user is an admin
+    if (checkuser.role != "admin")
+      return res.status(400).json({ msg: "Unauthorized" });
     //destructuring the req body
     const { email, password, passwordCheck, displayName } = req.body;
 
