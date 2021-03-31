@@ -1,9 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
-const {
-  admin_login,
-  admin_register,
-} = require("../controllers/authController");
+const { admin_register } = require("../controllers/authController");
 const {
   get_all_tickets_by_admin,
   change_ticket_status,
@@ -11,7 +8,8 @@ const {
 
 router.post("/register", auth, admin_register);
 
-router.post("/login", admin_login);
+// router.post("/login", admin_login);
+
 //getting all tickets for all customers
 router.get("/allTickets", auth, get_all_tickets_by_admin);
 

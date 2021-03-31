@@ -73,7 +73,8 @@ exports.user_login = async function (req, res) {
 
     //comparing the hashed password with the entered one
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(403).json({ msg: "Wrong Email or Password" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({
@@ -147,39 +148,39 @@ exports.admin_register = async function (req, res) {
     res.status(500).json({ error: err.message });
   }
 };
-exports.admin_login = async function (req, res) {
-  try {
-    const { email, password } = req.body;
-    //validation
-    if (!email || !password)
-      return res.status(400).json({ msg: "Not all fields have been entered" });
-    //check if the user exists
-    const user = await User.findOne({ email: email });
-    if (!user)
-      return res
-        .status(400)
-        .json({ msg: "No account with this email has been registered" });
-    //checking if this user is an admin
-    if (user.role != "admin")
-      return res.status(400).json({ msg: "Invalid credentials" });
-    //comparing the hashed password with the entered one
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(403).json({ msg: "Invalid credentials" });
-    //set the token with the user id
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        displayName: user.displayName,
-        email: user.email,
-        role: user.role,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+// exports.admin_login = async function (req, res) {
+//   try {
+//     const { email, password } = req.body;
+//     //validation
+//     if (!email || !password)
+//       return res.status(400).json({ msg: "Not all fields have been entered" });
+//     //check if the user exists
+//     const user = await User.findOne({ email: email });
+//     if (!user)
+//       return res
+//         .status(400)
+//         .json({ msg: "No account with this email has been registered" });
+//     //checking if this user is an admin
+//     if (user.role != "admin")
+//       return res.status(400).json({ msg: "Wrong Email or Password" });
+//     //comparing the hashed password with the entered one
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(403).json({ msg: "Wrong Email or Password" });
+//     //set the token with the user id
+//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+//     res.json({
+//       token,
+//       user: {
+//         id: user._id,
+//         displayName: user.displayName,
+//         email: user.email,
+//         role: user.role,
+//       },
+//     });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 exports.delete_user_account = async (req, res) => {
   try {

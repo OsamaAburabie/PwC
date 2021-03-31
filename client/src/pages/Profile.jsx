@@ -13,16 +13,18 @@ function Profile() {
 
   console.log(myToken);
   const history = useHistory();
-
+  //fetcing all tickets for the current user
   function fetchData() {
     axios
-      .get("http://localhost:5000/users/allTickets", {
+      .get("https://pwctask.herokuapp.com/users/allTickets", {
         headers: { "x-auth-token": myToken },
       })
       .then((res) => {
         setTickets(res.data);
       });
   }
+
+  //check login status
   useEffect(() => {
     if (!isLoggedIn) {
       history.push("/");
@@ -38,10 +40,12 @@ function Profile() {
       "x-auth-token": myToken,
     };
     axios
-      .delete("http://localhost:5000/users/allTickets/" + id, { headers })
+      .delete("https://pwctask.herokuapp.com/users/allTickets/" + id, {
+        headers,
+      })
       .then(setTickets(tickets.filter((todo) => todo._id !== id)));
   };
-
+  //================popup props ================
   const delAcc = () => {
     setSubmit(true);
   };
@@ -52,15 +56,14 @@ function Profile() {
     localStorage.setItem("auth-token", "");
     window.location = "/login";
   };
+
+  //===========================================
   if (!isLoggedIn) {
     return <></>;
   } else {
     return (
       <div className="Profile__container">
         <div className="side__bar">
-          {/* <NavLink to="profile">
-            <button className="sbar__btn black">My Tickets</button>
-          </NavLink> */}
           <div className="userData">
             <p>
               <PersonIcon /> Name: {username}
@@ -70,18 +73,10 @@ function Profile() {
               <EmailIcon /> Email: {email}
             </p>
           </div>
-          <button onClick={delAcc} className="sbar__btn ">
+          <button onClick={delAcc} className="sbar__btn red__del ">
             Delete Account
           </button>
-          <DelAccPopup
-            msg={
-              " It's seems like you don't have an account, you still can join us."
-            }
-            btn={"SignUp Now!"}
-            show={submited}
-            onHide={Close}
-            logOut={logout}
-          />
+          <DelAccPopup show={submited} onHide={Close} logOut={logout} />
         </div>
         <div className="Prifile__content">
           {tickets && (

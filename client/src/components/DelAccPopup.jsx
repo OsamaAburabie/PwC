@@ -19,7 +19,7 @@ export function DelAccPopup(props) {
     };
     try {
       await axios
-        .delete("http://localhost:5000/users/delete", {
+        .delete("https://pwctask.herokuapp.com/users/delete", {
           headers,
           data,
         })

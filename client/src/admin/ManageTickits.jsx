@@ -9,15 +9,19 @@ function ManageTickits() {
   const { isLoggedIn, role, myToken } = useContext(AuthContext);
   const [tickets, setTickets] = useState();
   const history = useHistory();
+
+  //fetch all tickets for all users by admin
   function fetchData() {
     axios
-      .get("http://localhost:5000/admins/allTickets", {
+      .get("https://pwctask.herokuapp.com/admins/allTickets", {
         headers: { "x-auth-token": myToken },
       })
       .then((req) => {
         setTickets(req.data);
       });
   }
+
+  //chcek if this user is an admin or redirect to '/'
   useEffect(() => {
     if (role !== "admin" || isLoggedIn === false) {
       history.push("/");

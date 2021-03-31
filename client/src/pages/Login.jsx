@@ -6,16 +6,20 @@ import { useHistory } from "react-router";
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const { isLoggedIn, checkLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, checkLoggedIn, role } = useContext(AuthContext);
   const [error, setError] = useState();
   const history = useHistory();
-
+  //check if user is logged in already redirect to '/' and if they are admin redirect to dashboard
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && role === "admin") {
+      history.push("/admin/manageTickits");
+    } else if (isLoggedIn && role === "customer") {
       history.push("/");
     }
     //eslint-disable-next-line
   }, [isLoggedIn]);
+
+  //login handler
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -27,7 +31,7 @@ function Login() {
       };
 
       const loginRes = await axios.post(
-        "http://localhost:5000/users/login",
+        "https://pwctask.herokuapp.com/users/login",
         loginData
       );
       if (loginRes.data.token) {

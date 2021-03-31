@@ -8,17 +8,20 @@ function Register() {
   const [displayName, setDisplayName] = useState();
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
-  const { isLoggedIn, checkLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, checkLoggedIn, role } = useContext(AuthContext);
   const [error, setError] = useState();
-
   const history = useHistory();
-
+  //check if user is logged in already redirect to '/' and if they are admin redirect to dashboard
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && role === "admin") {
+      history.push("/admin/manageTickits");
+    } else if (isLoggedIn && role === "customer") {
       history.push("/");
     }
     //eslint-disable-next-line
   }, [isLoggedIn]);
+
+  //register handler
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -31,7 +34,7 @@ function Register() {
       };
 
       const loginRes = await axios.post(
-        "http://localhost:5000/users/register",
+        "https://pwctask.herokuapp.com/users/register",
         RegisterData
       );
       if (loginRes.data.token) {
@@ -53,14 +56,15 @@ function Register() {
           </div>
           <form onSubmit={handleRegister}>
             <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
               type="text"
               placeholder="Name"
               onChange={(e) => setDisplayName(e.target.value)}
+            />
+
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"

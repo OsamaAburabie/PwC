@@ -14,12 +14,15 @@ function RegisterAdmin() {
   const { isLoggedIn, role, myToken } = useContext(AuthContext);
   const history = useHistory();
 
+  //chcek if this user is an admin or redirect to '/'
   useEffect(() => {
     if (role !== "admin" || isLoggedIn === false) {
       history.push("/");
     }
     //eslint-disable-next-line
   }, [isLoggedIn]);
+
+  //register new admin
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
@@ -30,7 +33,7 @@ function RegisterAdmin() {
       displayName,
     };
     axios
-      .post("http://localhost:5000/admins/register", RegisterData, {
+      .post("https://pwctask.herokuapp.com/admins/register", RegisterData, {
         headers: { "x-auth-token": myToken },
       })
       .then(() => {

@@ -1,3 +1,4 @@
+/* Popup */
 .Msg {
   width: 500px;
   max-width: 100%;
@@ -6,35 +7,40 @@
   margin: 10% auto 0;
   text-align: center;
 }
-.Msg input {
-  outline: none;
-  border: 1px solid gray;
-  height: 40px;
-  width: 50%;
-  padding: 5px;
-  border-radius: 5px;
-}
 
 .Msg h2 {
-  color: var(--Fifth-color);
+  color: grey;
 }
 
 .Msg h5 {
-  color: var(--Second-color);
+  color: black;
   margin-top: 1rem;
   font-size: 0.9rem;
 }
 
 .Button-Close {
-  background: #e84546;
   height: 50px;
   line-height: 50px;
   width: 50%;
   border: none;
   border-radius: 12px;
-  outline: none !important;
+  outline: none;
   margin: auto !important;
   cursor: pointer;
   color: #ffffff;
   font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+}
+.Button-Close:hover {
+  color: #fff;
+}
+@media screen and (max-width: 650px) {
+  .Button .formBox {
+    width: 90%;
+  }
+}
+
+.Msg h3 {
+  text-align: center;
 }

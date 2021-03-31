@@ -9,11 +9,12 @@ function StatusSelect({ fetching, status, id }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  //change ticker status
   const ChangeStatus = (e) => {
-    // setTicketStatus(e.target.value);
+    //the backend will response with the changed status then it will be set to ticketStatus state
     axios
       .put(
-        `http://localhost:5000/admins/allTickets/${id}`,
+        `https://pwctask.herokuapp.com/admins/allTickets/${id}`,
         { status: e.target.value },
         {
           headers: { "x-auth-token": myToken },

@@ -8,6 +8,8 @@ function AuthContextProvider(props) {
   const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
   const [myToken, setMyToken] = useState(null);
+
+  //get the tokey frrom local storage and send to the checking end point to check if its a valid token.
   const checkLoggedIn = async () => {
     let token = localStorage.getItem("auth-token");
     if (token === null) {
@@ -16,7 +18,7 @@ function AuthContextProvider(props) {
     } else setMyToken(token);
 
     const tokenRes = await axios.post(
-      "http://localhost:5000/check/isLoggedIn",
+      "https://pwctask.herokuapp.com/check/isLoggedIn",
       null,
       {
         headers: { "x-auth-token": token },
