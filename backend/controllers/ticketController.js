@@ -5,7 +5,7 @@ exports.add_ticket = async function (req, res) {
     const { title, body, email } = req.body;
     //validation
     if (!title || !body || !email)
-      return res.status(400).json({ msg: "Please fill all the fields" });
+      return res.status(400).json({ msg: "All the fields are required" });
 
     const newTicket = new Ticket({
       title,

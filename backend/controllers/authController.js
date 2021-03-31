@@ -9,7 +9,7 @@ exports.user_register = async function (req, res) {
 
     //Validation
     if (!email || !password || !passwordCheck || !displayName)
-      return res.status(400).json({ msg: "Not all fields have been entered" });
+      return res.status(400).json({ msg: "All fields are required" });
 
     if (password.length < 5)
       return res
@@ -63,7 +63,7 @@ exports.user_login = async function (req, res) {
     const { email, password } = req.body;
     //validation
     if (!email || !password)
-      return res.status(400).json({ msg: "Not all fields have been entered" });
+      return res.status(400).json({ msg: "All fields are required" });
     //check if the user exists
     const user = await User.findOne({ email: email });
     if (!user)
@@ -101,7 +101,7 @@ exports.admin_register = async function (req, res) {
 
     //Validation
     if (!email || !password || !passwordCheck || !displayName)
-      return res.status(400).json({ msg: "Not all fields have been entered" });
+      return res.status(400).json({ msg: "All fields are required" });
 
     if (password.length < 5)
       return res
@@ -153,7 +153,7 @@ exports.admin_register = async function (req, res) {
 //     const { email, password } = req.body;
 //     //validation
 //     if (!email || !password)
-//       return res.status(400).json({ msg: "Not all fields have been entered" });
+//       return res.status(400).json({ msg: "All fields are required" });
 //     //check if the user exists
 //     const user = await User.findOne({ email: email });
 //     if (!user)
