@@ -9,10 +9,16 @@ import Profile from "./pages/Profile";
 import "./index.css";
 import AuthContext from "./context/AuthContext";
 import ManageTickits from "./admin/ManageTickits";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 function Routes() {
   const { isLoggedIn } = useContext(AuthContext);
   if (isLoggedIn === undefined) {
-    return <></>;
+    return (
+      <div className="Loading__container">
+        <CircularProgress />
+      </div>
+    );
   }
   return (
     <div className="App">

@@ -38,6 +38,9 @@
   justify-content: left;
   flex-wrap: wrap;
 }
+.userData p {
+  margin-bottom: 0;
+}
 
 .Prifile__content {
   width: calc(100% - 15rem);

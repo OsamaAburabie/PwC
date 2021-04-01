@@ -11,7 +11,7 @@ function Profile() {
   const [tickets, setTickets] = useState();
   const [submited, setSubmit] = useState(false);
 
-  console.log(myToken);
+  console.log(tickets);
   const history = useHistory();
   //fetcing all tickets for the current user
   function fetchData() {
@@ -57,6 +57,21 @@ function Profile() {
     window.location = "/login";
   };
 
+  const getcolor = (status) => {
+    switch (status) {
+      case "pending":
+        return "black";
+      case "resolved":
+        return "green";
+
+      case "dismissed":
+        return "red";
+
+      default:
+        return "black";
+    }
+  };
+
   //===========================================
   if (!isLoggedIn) {
     return <></>;
@@ -79,14 +94,14 @@ function Profile() {
           <DelAccPopup show={submited} onHide={Close} logOut={logout} />
         </div>
         <div className="Prifile__content">
-          {tickets && (
+          {tickets && tickets.length !== 0 && (
             <table className="zebra">
               <thead>
                 <tr>
                   <th>Title</th>
                   <th>Body</th>
                   <th>Date Created</th>
-                  <th>Email</th>
+                  <th>Date Updated</th>
                   <th>Status</th>
                   <th>Delete</th>
                 </tr>
@@ -97,8 +112,14 @@ function Profile() {
                     <td>{el.title}</td>
                     <td>{el.body}</td>
                     <td>{el.createdAt}</td>
-                    <td>{el.email}</td>
-                    <td>{el.status}</td>
+                    <td>{el.updatedAt}</td>
+                    <td
+                      style={{
+                        color: getcolor(el.status),
+                      }}
+                    >
+                      {el.status}
+                    </td>
                     <td>
                       <button
                         onClick={() => deleteTicket(el._id)}
